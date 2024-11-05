@@ -29,20 +29,20 @@
       '---" `--''          `---'.|    |   | ,'                
    vape/CustomModules/6872274481.lua by abyss and star 100%!                          `---`    `----'                  
  --]]                        
-local GuiLibrary = shared.GuiLibrary
-local playersService = game:GetService("Players")
-local textService = game:GetService("TextService")
-local lightingService = game:GetService("Lighting")
-local textChatService = game:GetService("TextChatService")
-local inputService = game:GetService("UserInputService")
-local runService = game:GetService("RunService")
-local tweenService = game:GetService("TweenService")
-local collectionService = game:GetService("CollectionService")
-local replicatedStorage = game:GetService("ReplicatedStorage")
-local gameCamera = workspace.CurrentCamera
-local lplr = playersService.LocalPlayer
-local vapeConnections = {}
-local vapeCachedAssets = {}
+local GuiLibrary = shared.GuiLibrary;
+local playersservice = game:GetService("Players");
+local textService = game:GetService("TextService");
+local lightingService = game:GetService("Lighting");
+local textChatService = game:GetService("TextChatService");
+local inputservice = game:GetService("UserInputService");
+local runservice = game:GetService("RunService");
+local tweenservice = game:GetService("TweenService");
+local collection = game:GetService("CollectionService");
+local replicatedstorage = game:GetService("ReplicatedStorage");
+local gamecamera = workspace.CurrentCamera
+local lplr = playersservice.LocalPlayer
+local vapeConnections = {};
+local vapeCachedAssets = {};
 local vapeEvents = setmetatable({}, {
 	__index = function(self, index)
 		self[index] = Instance.new("BindableEvent")
@@ -106,7 +106,7 @@ store.blockRaycast.FilterType = Enum.RaycastFilterType.Include
 local AutoLeave = {Enabled = false}
 
 table.insert(vapeConnections, workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
-	gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA("gameCamera")
+	gamecamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA("gamecamera")
 end))
 local isfile = isfile or function(file)
 	local suc, res = pcall(function() return readfile(file) end)
@@ -130,14 +130,14 @@ local worldtoscreenpoint = function(pos)
 		local scr = worldtoscreen({pos})
 		return scr[1] - Vector3.new(0, 36, 0), scr[1].Z > 0
 	end
-	return gameCamera.WorldToScreenPoint(gameCamera, pos)
+	return gamecamera.WorldToScreenPoint(gamecamera, pos)
 end
 local worldtoviewportpoint = function(pos)
 	if synapsev3 == "V3" then
 		local scr = worldtoscreen({pos})
 		return scr[1], scr[1].Z > 0
 	end
-	return gameCamera.WorldToViewportPoint(gameCamera, pos)
+	return gamecamera.WorldToViewportPoint(gamecamera, pos)
 end
 
 local function vapeGithubRequest(scripturl)
@@ -294,7 +294,7 @@ local RunLoops = {RenderStepTable = {}, StepTable = {}, HeartTable = {}}
 do
 	function RunLoops:BindToRenderStep(name, func)
 		if RunLoops.RenderStepTable[name] == nil then
-			RunLoops.RenderStepTable[name] = runService.RenderStepped:Connect(func)
+			RunLoops.RenderStepTable[name] = runservice.RenderStepped:Connect(func)
 		end
 	end
 
@@ -307,7 +307,7 @@ do
 
 	function RunLoops:BindToStepped(name, func)
 		if RunLoops.StepTable[name] == nil then
-			RunLoops.StepTable[name] = runService.Stepped:Connect(func)
+			RunLoops.StepTable[name] = runservice.Stepped:Connect(func)
 		end
 	end
 
@@ -320,7 +320,7 @@ do
 
 	function RunLoops:BindToHeartbeat(name, func)
 		if RunLoops.HeartTable[name] == nil then
-			RunLoops.HeartTable[name] = runService.Heartbeat:Connect(func)
+			RunLoops.HeartTable[name] = runservice.Heartbeat:Connect(func)
 		end
 	end
 
@@ -480,7 +480,7 @@ end
 
 local updateitem = Instance.new("BindableEvent")
 table.insert(vapeConnections, updateitem.Event:Connect(function(inputObj)
-    if inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
+    if inputservice:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
         game:GetService("ContextActionService"):CallFunction("block-break", Enum.UserInputState.Begin, newproxy(true))
     end
 end))
@@ -643,7 +643,7 @@ local function EntityNearPosition(distance, ignore, overridepos)
 			end
 		end
 		if not ignore then
-			for i, v in pairs(collectionService:GetTagged("Monster")) do
+			for i, v in pairs(collection:GetTagged("Monster")) do
 				if v.PrimaryPart and v:GetAttribute("Team") ~= lplr:GetAttribute("Team") then
 					local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
 					if overridepos and mag > distance then
@@ -654,7 +654,7 @@ local function EntityNearPosition(distance, ignore, overridepos)
 					end
 				end
 			end
-			for i, v in pairs(collectionService:GetTagged("GuardianOfDream")) do
+			for i, v in pairs(collection:GetTagged("GuardianOfDream")) do
 				if v.PrimaryPart and v:GetAttribute("Team") ~= lplr:GetAttribute("Team") then
 					local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
 					if overridepos and mag > distance then
@@ -665,7 +665,7 @@ local function EntityNearPosition(distance, ignore, overridepos)
 					end
 				end
 			end
-			for i, v in pairs(collectionService:GetTagged("DiamondGuardian")) do
+			for i, v in pairs(collection:GetTagged("DiamondGuardian")) do
 				if v.PrimaryPart then
 					local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
 					if overridepos and mag > distance then
@@ -676,7 +676,7 @@ local function EntityNearPosition(distance, ignore, overridepos)
 					end
 				end
 			end
-			for i, v in pairs(collectionService:GetTagged("GolemBoss")) do
+			for i, v in pairs(collection:GetTagged("GolemBoss")) do
 				if v.PrimaryPart then
 					local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
 					if overridepos and mag > distance then
@@ -687,9 +687,9 @@ local function EntityNearPosition(distance, ignore, overridepos)
 					end
 				end
 			end
-			for i, v in pairs(collectionService:GetTagged("Drone")) do
+			for i, v in pairs(collection:GetTagged("Drone")) do
 				if v.PrimaryPart and tonumber(v:GetAttribute("PlayerUserId")) ~= lplr.UserId then
-					local droneplr = playersService:GetPlayerByUserId(v:GetAttribute("PlayerUserId"))
+					local droneplr = playersservice:GetPlayerByUserId(v:GetAttribute("PlayerUserId"))
 					if droneplr and droneplr.Team == lplr.Team then continue end
 					local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
 					if overridepos and mag > distance then
@@ -708,7 +708,7 @@ end
 local function EntityNearMouse(distance)
 	local closestEntity, closestMagnitude = nil, distance
 	if entityLibrary.isAlive then
-		local mousepos = inputService.GetMouseLocation(inputService)
+		local mousepos = inputservice.GetMouseLocation(inputservice)
 		for i, v in pairs(entityLibrary.entityList) do
 			if not v.Targetable then continue end
 			if isVulnerable(v) then
@@ -754,7 +754,7 @@ local function AllNearPosition(distance, amount, sortfunction, prediction, npcIn
 				end
 			end
 		end
-		for i, v in pairs(collectionService:GetTagged("Monster")) do
+		for i, v in pairs(collection:GetTagged("Monster")) do
 			if v.PrimaryPart then
 				local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
 				if prediction and mag > distance then
@@ -766,7 +766,7 @@ local function AllNearPosition(distance, amount, sortfunction, prediction, npcIn
 				end
 			end
 		end
-		for i, v in pairs(collectionService:GetTagged("GuardianOfDream")) do
+		for i, v in pairs(collection:GetTagged("GuardianOfDream")) do
 			if v.PrimaryPart then
 				local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
 				if prediction and mag > distance then
@@ -778,7 +778,7 @@ local function AllNearPosition(distance, amount, sortfunction, prediction, npcIn
 				end
 			end
 		end
-		for i, v in pairs(collectionService:GetTagged("DiamondGuardian")) do
+		for i, v in pairs(collection:GetTagged("DiamondGuardian")) do
 			if v.PrimaryPart then
 				local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
 				if prediction and mag > distance then
@@ -789,7 +789,7 @@ local function AllNearPosition(distance, amount, sortfunction, prediction, npcIn
 				end
 			end
 		end
-		for i, v in pairs(collectionService:GetTagged("GolemBoss")) do
+		for i, v in pairs(collection:GetTagged("GolemBoss")) do
 			if v.PrimaryPart then
 				local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
 				if prediction and mag > distance then
@@ -800,7 +800,7 @@ local function AllNearPosition(distance, amount, sortfunction, prediction, npcIn
 				end
 			end
 		end
-		for i, v in pairs(collectionService:GetTagged("Drone")) do
+		for i, v in pairs(collection:GetTagged("Drone")) do
 			if v.PrimaryPart then
 				local mag = (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
 				if prediction and mag > distance then
@@ -808,7 +808,7 @@ local function AllNearPosition(distance, amount, sortfunction, prediction, npcIn
 				end
 				if mag <= distance then
 					if tonumber(v:GetAttribute("PlayerUserId")) == lplr.UserId then end
-					local droneplr = playersService:GetPlayerByUserId(v:GetAttribute("PlayerUserId"))
+					local droneplr = playersservice:GetPlayerByUserId(v:GetAttribute("PlayerUserId"))
 					if droneplr and droneplr.Team == lplr.Team then end
 					table.insert(sortedentities, {Player = {Name = "Drone", UserId = 1443379645}, GetAttribute = function() return "none" end, Character = v, RootPart = v.PrimaryPart, Humanoid = v.Humanoid})
 				end
@@ -918,10 +918,10 @@ local function CreateAutoHotbarGUI(children2, argstable)
 	uicorner2.CornerRadius = UDim.new(0, 5)
 	uicorner2.Parent = toggleframe2
 	buttontext.MouseEnter:Connect(function()
-		tweenService:Create(toggleframe2, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(79, 78, 79)}):Play()
+		tweenservice:Create(toggleframe2, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(79, 78, 79)}):Play()
 	end)
 	buttontext.MouseLeave:Connect(function()
-		tweenService:Create(toggleframe2, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(38, 37, 38)}):Play()
+		tweenservice:Create(toggleframe2, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(38, 37, 38)}):Play()
 	end)
 	local ItemListBigFrame = Instance.new("Frame")
 	ItemListBigFrame.Size = UDim2.new(1, 0, 1, 0)
@@ -948,10 +948,10 @@ local function CreateAutoHotbarGUI(children2, argstable)
 	ItemListExitButtonround.CornerRadius = UDim.new(0, 16)
 	ItemListExitButtonround.Parent = ItemListExitButton
 	ItemListExitButton.MouseEnter:Connect(function()
-		tweenService:Create(ItemListExitButton, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(60, 60, 60), ImageColor3 = Color3.fromRGB(255, 255, 255)}):Play()
+		tweenservice:Create(ItemListExitButton, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(60, 60, 60), ImageColor3 = Color3.fromRGB(255, 255, 255)}):Play()
 	end)
 	ItemListExitButton.MouseLeave:Connect(function()
-		tweenService:Create(ItemListExitButton, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(26, 25, 26), ImageColor3 = Color3.fromRGB(121, 121, 121)}):Play()
+		tweenservice:Create(ItemListExitButton, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(26, 25, 26), ImageColor3 = Color3.fromRGB(121, 121, 121)}):Play()
 	end)
 	ItemListExitButton.MouseButton1Click:Connect(function()
 		ItemListBigFrame.Visible = false
@@ -1215,7 +1215,7 @@ end)
 run(function()
 	local function isWhitelistedBed(bed)
 		if bed and bed.Name == 'bed' then
-			for i, v in pairs(playersService:GetPlayers()) do
+			for i, v in pairs(playersservice:GetPlayers()) do
 				if bed:GetAttribute("Team"..(v:GetAttribute("Team") or 0).."NoBreak") and not ({whitelist:get(v)})[2] then
 					return true
 				end
@@ -1242,36 +1242,36 @@ run(function()
 		task.wait()
 	until KnitGotten
 	repeat task.wait() until debug.getupvalue(KnitClient.Start, 1)
-	local Flamework = require(replicatedStorage["rbxts_include"]["node_modules"]["@flamework"].core.out).Flamework
-	local Client = require(replicatedStorage.TS.remotes).default.Client
-	local InventoryUtil = require(replicatedStorage.TS.inventory["inventory-util"]).InventoryUtil
+	local Flamework = require(replicatedstorage["rbxts_include"]["node_modules"]["@flamework"].core.out).Flamework
+	local Client = require(replicatedstorage.TS.remotes).default.Client
+	local InventoryUtil = require(replicatedstorage.TS.inventory["inventory-util"]).InventoryUtil
 	local OldGet = getmetatable(Client).Get
 	local OldBreak
 
 	bedwars = setmetatable({
-		AnimationType = require(replicatedStorage.TS.animation["animation-type"]).AnimationType,
-		AnimationUtil = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out["shared"].util["animation-util"]).AnimationUtil,
-		AppController = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out.client.controllers["app-controller"]).AppController,
+		AnimationType = require(replicatedstorage.TS.animation["animation-type"]).AnimationType,
+		AnimationUtil = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out["shared"].util["animation-util"]).AnimationUtil,
+		AppController = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out.client.controllers["app-controller"]).AppController,
 		AbilityController = Flamework.resolveDependency("@easy-games/game-core:client/controllers/ability/ability-controller@AbilityController"),
 		AbilityUIController = Flamework.resolveDependency("@easy-games/game-core:client/controllers/ability/ability-ui-controller@AbilityUIController"),
 		AttackRemote = dumpRemote(debug.getconstants(KnitClient.Controllers.SwordController.sendServerRequest)),
-		BalanceFile = require(replicatedStorage.TS.balance["balance-file"]).BalanceFile,
+		BalanceFile = require(replicatedstorage.TS.balance["balance-file"]).BalanceFile,
 		BatteryRemote = dumpRemote(debug.getconstants(debug.getproto(debug.getproto(KnitClient.Controllers.BatteryController.KnitStart, 1), 1))),
 		BlockBreaker = KnitClient.Controllers.BlockBreakController.blockBreaker,
-		BlockController = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out).BlockEngine,
-		BlockPlacer = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out.client.placement["block-placer"]).BlockPlacer,
+		BlockController = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out).BlockEngine,
+		BlockPlacer = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out.client.placement["block-placer"]).BlockPlacer,
 		BlockEngine = require(lplr.PlayerScripts.TS.lib["block-engine"]["client-block-engine"]).ClientBlockEngine,
-		BlockEngineClientEvents = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out.client["block-engine-client-events"]).BlockEngineClientEvents,
+		BlockEngineClientEvents = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out.client["block-engine-client-events"]).BlockEngineClientEvents,
 		BowConstantsTable = debug.getupvalue(KnitClient.Controllers.ProjectileController.enableBeam, 7),
 		CannonAimRemote = dumpRemote(debug.getconstants(debug.getproto(KnitClient.Controllers.CannonController.startAiming, 5))),
 		CannonLaunchRemote = dumpRemote(debug.getconstants(KnitClient.Controllers.CannonHandController.launchSelf)),
-		ClickHold = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out.client.ui.lib.util["click-hold"]).ClickHold,
+		ClickHold = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out.client.ui.lib.util["click-hold"]).ClickHold,
 		Client = Client,
-		ClientConstructor = require(replicatedStorage["rbxts_include"]["node_modules"]["@rbxts"].net.out.client),
-		ClientDamageBlock = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out.shared.remotes).BlockEngineRemotes.Client,
+		ClientConstructor = require(replicatedstorage["rbxts_include"]["node_modules"]["@rbxts"].net.out.client),
+		ClientDamageBlock = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out.shared.remotes).BlockEngineRemotes.Client,
 		ClientStoreHandler = require(lplr.PlayerScripts.TS.ui.store).ClientStore,
-		CombatConstant = require(replicatedStorage.TS.combat["combat-constant"]).CombatConstant,
-		ConstantManager = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out["shared"].constant["constant-manager"]).ConstantManager,
+		CombatConstant = require(replicatedstorage.TS.combat["combat-constant"]).CombatConstant,
+		ConstantManager = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out["shared"].constant["constant-manager"]).ConstantManager,
 		ConsumeSoulRemote = dumpRemote(debug.getconstants(KnitClient.Controllers.GrimReaperController.consumeSoul)),
 		CooldownController = Flamework.resolveDependency("@easy-games/game-core:client/controllers/cooldown/cooldown-controller@CooldownController"),
 		DamageIndicator = KnitClient.Controllers.DamageIndicatorController.spawnDamageIndicator,
@@ -1280,12 +1280,12 @@ run(function()
 		DropItemRemote = dumpRemote(debug.getconstants(KnitClient.Controllers.ItemDropController.dropItemInHand)),
 		DragonRemote = dumpRemote(debug.getconstants(debug.getproto(debug.getproto(KnitClient.Controllers.DragonSlayerController.KnitStart, 2), 1))),
 		EatRemote = dumpRemote(debug.getconstants(debug.getproto(KnitClient.Controllers.ConsumeController.onEnable, 1))),
-		EquipItemRemote = dumpRemote(debug.getconstants(debug.getproto(require(replicatedStorage.TS.entity.entities["inventory-entity"]).InventoryEntity.equipItem, 3))),
-		EmoteMeta = require(replicatedStorage.TS.locker.emote["emote-meta"]).EmoteMeta,
+		EquipItemRemote = dumpRemote(debug.getconstants(debug.getproto(require(replicatedstorage.TS.entity.entities["inventory-entity"]).InventoryEntity.equipItem, 3))),
+		EmoteMeta = require(replicatedstorage.TS.locker.emote["emote-meta"]).EmoteMeta,
 		ForgeConstants = debug.getupvalue(KnitClient.Controllers.ForgeController.getPurchaseableForgeUpgrades, 2),
 		ForgeUtil = debug.getupvalue(KnitClient.Controllers.ForgeController.getPurchaseableForgeUpgrades, 5),
-		GameAnimationUtil = require(replicatedStorage.TS.animation["animation-util"]).GameAnimationUtil,
-		EntityUtil = require(replicatedStorage.TS.entity["entity-util"]).EntityUtil,
+		GameAnimationUtil = require(replicatedstorage.TS.animation["animation-util"]).GameAnimationUtil,
+		EntityUtil = require(replicatedstorage.TS.entity["entity-util"]).EntityUtil,
 		getIcon = function(item, showinv)
 			local itemmeta = bedwars.ItemTable[item.itemType]
 			if itemmeta and showinv then
@@ -1304,36 +1304,36 @@ run(function()
 			})
 		end,
 		GuitarHealRemote = dumpRemote(debug.getconstants(KnitClient.Controllers.GuitarController.performHeal)),
-		ItemTable = debug.getupvalue(require(replicatedStorage.TS.item["item-meta"]).getItemMeta, 1),
-		KillEffectMeta = require(replicatedStorage.TS.locker["kill-effect"]["kill-effect-meta"]).KillEffectMeta,
-		KnockbackUtil = require(replicatedStorage.TS.damage["knockback-util"]).KnockbackUtil,
+		ItemTable = debug.getupvalue(require(replicatedstorage.TS.item["item-meta"]).getItemMeta, 1),
+		KillEffectMeta = require(replicatedstorage.TS.locker["kill-effect"]["kill-effect-meta"]).KillEffectMeta,
+		KnockbackUtil = require(replicatedstorage.TS.damage["knockback-util"]).KnockbackUtil,
 		MatchEndScreenController = Flamework.resolveDependency("client/controllers/game/match/match-end-screen-controller@MatchEndScreenController"),
 		--MinerRemote = dumpRemote(debug.getconstants(debug.getproto(KnitClient.Controllers.MinerController.onKitEnabled, 1))),
 		MageRemote = dumpRemote(debug.getconstants(debug.getproto(KnitClient.Controllers.MageController.registerTomeInteraction, 1))),
-		MageKitUtil = require(replicatedStorage.TS.games.bedwars.kit.kits.mage["mage-kit-util"]).MageKitUtil,
+		MageKitUtil = require(replicatedstorage.TS.games.bedwars.kit.kits.mage["mage-kit-util"]).MageKitUtil,
 		NotificationController = Flamework.resolveDependency('@easy-games/game-core:client/controllers/notification-controller@NotificationController'),
 		PickupMetalRemote = dumpRemote(debug.getconstants(debug.getproto(debug.getproto(KnitClient.Controllers.MetalDetectorController.KnitStart, 1), 2))),
 		PickupRemote = dumpRemote(debug.getconstants(KnitClient.Controllers.ItemDropController.checkForPickup)),
 		--PinataRemote = dumpRemote(debug.getconstants(debug.getproto(debug.getproto(KnitClient.Controllers.PiggyBankController.KnitStart, 2), 5))),
 		PinataRemote = '',
-		ProjectileMeta = require(replicatedStorage.TS.projectile["projectile-meta"]).ProjectileMeta,
+		ProjectileMeta = require(replicatedstorage.TS.projectile["projectile-meta"]).ProjectileMeta,
 		ProjectileRemote = dumpRemote(debug.getconstants(debug.getupvalue(KnitClient.Controllers.ProjectileController.launchProjectileWithValues, 2))),
-		QueryUtil = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out).GameQueryUtil,
+		QueryUtil = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out).GameQueryUtil,
 		QueueCard = require(lplr.PlayerScripts.TS.controllers.global.queue.ui["queue-card"]).QueueCard,
-		QueueMeta = require(replicatedStorage.TS.game["queue-meta"]).QueueMeta,
+		QueueMeta = require(replicatedstorage.TS.game["queue-meta"]).QueueMeta,
 		ReportRemote = dumpRemote(debug.getconstants(require(lplr.PlayerScripts.TS.controllers.global.report["report-controller"]).default.reportPlayer)),
 		ResetRemote = dumpRemote(debug.getconstants(debug.getproto(KnitClient.Controllers.ResetController.createBindable, 1))),
-		Roact = require(replicatedStorage["rbxts_include"]["node_modules"]["@rbxts"]["roact"].src),
-		RuntimeLib = require(replicatedStorage["rbxts_include"].RuntimeLib),
-		Shop = require(replicatedStorage.TS.games.bedwars.shop["bedwars-shop"]).BedwarsShop,
-		ShopItems = debug.getupvalue(debug.getupvalue(require(replicatedStorage.TS.games.bedwars.shop["bedwars-shop"]).BedwarsShop.getShopItem, 1), 3),
-		SoundList = require(replicatedStorage.TS.sound["game-sound"]).GameSound,
-		SoundManager = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out).SoundManager,
+		Roact = require(replicatedstorage["rbxts_include"]["node_modules"]["@rbxts"]["roact"].src),
+		RuntimeLib = require(replicatedstorage["rbxts_include"].RuntimeLib),
+		Shop = require(replicatedstorage.TS.games.bedwars.shop["bedwars-shop"]).BedwarsShop,
+		ShopItems = debug.getupvalue(debug.getupvalue(require(replicatedstorage.TS.games.bedwars.shop["bedwars-shop"]).BedwarsShop.getShopItem, 1), 3),
+		SoundList = require(replicatedstorage.TS.sound["game-sound"]).GameSound,
+		SoundManager = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out).SoundManager,
 		SpawnRavenRemote = dumpRemote(debug.getconstants(KnitClient.Controllers.RavenController.spawnRaven)),
 		TreeRemote = dumpRemote(debug.getconstants(debug.getproto(debug.getproto(KnitClient.Controllers.BigmanController.KnitStart, 1), 2))),
 		TrinityRemote = dumpRemote(debug.getconstants(debug.getproto(KnitClient.Controllers.AngelController.onKitEnabled, 1))),
-		UILayers = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out).UILayers,
-		WeldTable = require(replicatedStorage.TS.util["weld-util"]).WeldUtil
+		UILayers = require(replicatedstorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out).UILayers,
+		WeldTable = require(replicatedstorage.TS.util["weld-util"]).WeldUtil
 	}, {
 		__index = function(self, ind)
 			rawset(self, ind, KnitClient.Controllers[ind])
@@ -1349,7 +1349,7 @@ run(function()
 			return {
 				instance = originalRemote.instance,
 				SendToServer = function(self, attackTable, ...)
-					local suc, plr = pcall(function() return playersService:GetPlayerFromCharacter(attackTable.entityInstance) end)
+					local suc, plr = pcall(function() return playersservice:GetPlayerFromCharacter(attackTable.entityInstance) end)
 					if suc and plr then
 						if not ({whitelist:get(plr)})[2] then return end
 						if Reach.Enabled then
@@ -1509,30 +1509,30 @@ run(function()
 		end)
 	end
 
-	store.blocks = collectionService:GetTagged("block")
+	store.blocks = collection:GetTagged("block")
 	store.blockRaycast.FilterDescendantsInstances = {store.blocks}
-	table.insert(vapeConnections, collectionService:GetInstanceAddedSignal("block"):Connect(function(block)
+	table.insert(vapeConnections, collection:GetInstanceAddedSignal("block"):Connect(function(block)
 		table.insert(store.blocks, block)
 		store.blockRaycast.FilterDescendantsInstances = {store.blocks}
 	end))
-	table.insert(vapeConnections, collectionService:GetInstanceRemovedSignal("block"):Connect(function(block)
+	table.insert(vapeConnections, collection:GetInstanceRemovedSignal("block"):Connect(function(block)
 		block = table.find(store.blocks, block)
 		if block then
 			table.remove(store.blocks, block)
 			store.blockRaycast.FilterDescendantsInstances = {store.blocks}
 		end
 	end))
-	for _, ent in pairs(collectionService:GetTagged("entity")) do
+	for _, ent in pairs(collection:GetTagged("entity")) do
 		if ent.Name == "DesertPotEntity" then
 			table.insert(store.pots, ent)
 		end
 	end
-	table.insert(vapeConnections, collectionService:GetInstanceAddedSignal("entity"):Connect(function(ent)
+	table.insert(vapeConnections, collection:GetInstanceAddedSignal("entity"):Connect(function(ent)
 		if ent.Name == "DesertPotEntity" then
 			table.insert(store.pots, ent)
 		end
 	end))
-	table.insert(vapeConnections, collectionService:GetInstanceRemovedSignal("entity"):Connect(function(ent)
+	table.insert(vapeConnections, collection:GetInstanceRemovedSignal("entity"):Connect(function(ent)
 		ent = table.find(store.pots, ent)
 		if ent then
 			table.remove(store.pots, ent)
@@ -1882,7 +1882,7 @@ run(function()
 								if AimAssistTargetFrame.Walls.Enabled then
 									if not bedwars.SwordController:canSee({instance = plr.Character, player = plr.Player, getInstance = function() return plr.Character end}) then return end
 								end
-								gameCamera.CFrame = gameCamera.CFrame:lerp(CFrame.new(gameCamera.CFrame.p, plr.Character.HumanoidRootPart.Position), ((1 / AimSpeed.Value) + (AimAssistStrafe.Enabled and (inputService:IsKeyDown(Enum.KeyCode.A) or inputService:IsKeyDown(Enum.KeyCode.D)) and 0.01 or 0)))
+								gamecamera.CFrame = gamecamera.CFrame:lerp(CFrame.new(gamecamera.CFrame.p, plr.Character.HumanoidRootPart.Position), ((1 / AimSpeed.Value) + (AimAssistStrafe.Enabled and (inputservice:IsKeyDown(Enum.KeyCode.A) or inputservice:IsKeyDown(Enum.KeyCode.D)) and 0.01 or 0)))
 							end
 						end
 					end
@@ -1923,7 +1923,7 @@ run(function()
 	local AutoClickerThread
 
 	local function isNotHoveringOverGui()
-		local mousepos = inputService:GetMouseLocation() - Vector2.new(0, 36)
+		local mousepos = inputservice:GetMouseLocation() - Vector2.new(0, 36)
 		for i,v in pairs(lplr.PlayerGui:GetGuiObjectsAtPosition(mousepos.X, mousepos.Y)) do
 			if v.Active then
 				return false
@@ -1986,7 +1986,7 @@ run(function()
 		Name = "AutoClicker",
 		Function = function(callback)
 			if callback then
-				if inputService.TouchEnabled then
+				if inputservice.TouchEnabled then
 					pcall(function()
 						table.insert(autoclicker.Connections, lplr.PlayerGui.MobileUI['2'].MouseButton1Down:Connect(AutoClick))
 						table.insert(autoclicker.Connections, lplr.PlayerGui.MobileUI['2'].MouseButton1Up:Connect(function()
@@ -1997,10 +1997,10 @@ run(function()
 						end))
 					end)
 				end
-				table.insert(autoclicker.Connections, inputService.InputBegan:Connect(function(input, gameProcessed)
+				table.insert(autoclicker.Connections, inputservice.InputBegan:Connect(function(input, gameProcessed)
 					if input.UserInputType == Enum.UserInputType.MouseButton1 then AutoClick() end
 				end))
-				table.insert(autoclicker.Connections, inputService.InputEnded:Connect(function(input)
+				table.insert(autoclicker.Connections, inputservice.InputEnded:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseButton1 and AutoClickerThread then
 						task.cancel(AutoClickerThread)
 						AutoClickerThread = nil
@@ -2073,7 +2073,7 @@ run(function()
 		Name = "Sprint",
 		Function = function(callback)
 			if callback then
-				if inputService.TouchEnabled then
+				if inputservice.TouchEnabled then
 					pcall(function() lplr.PlayerGui.MobileUI["4"].Visible = false end)
 				end
 				oldSprintFunction = bedwars.SprintController.stopSprinting
@@ -2091,7 +2091,7 @@ run(function()
 					bedwars.SprintController:startSprinting()
 				end)
 			else
-				if inputService.TouchEnabled then
+				if inputservice.TouchEnabled then
 					pcall(function() lplr.PlayerGui.MobileUI["4"].Visible = true end)
 				end
 				bedwars.SprintController.stopSprinting = oldSprintFunction
@@ -2152,7 +2152,7 @@ run(function()
     local function isEveryoneDead()
         if #bedwars.ClientStoreHandler:getState().Party.members > 0 then
             for _, v in pairs(bedwars.ClientStoreHandler:getState().Party.members) do
-                local plr = playersService:FindFirstChild(v.name)
+                local plr = playersservice:FindFirstChild(v.name)
                 if plr and isAlive(plr, true) then
                     return false
                 end
@@ -2277,12 +2277,12 @@ run(function()
 							BackgroundTransparency = 0.5
 						}) }) }), lplr:FindFirstChild("PlayerGui"))
 					p5.handle = countdown
-					local sizetween = tweenService:Create(p5.wrapperRef:getValue(), TweenInfo.new(0.1), {
+					local sizetween = tweenservice:Create(p5.wrapperRef:getValue(), TweenInfo.new(0.1), {
 						Size = UDim2.new(0.11, 0, 0.005, 0)
 					})
 					table.insert(p5.tweens, sizetween)
 					sizetween:Play()
-					local countdowntween = tweenService:Create(p5.progressRef:getValue(), TweenInfo.new(p5.durationSeconds * (FastConsumeVal.Value / 40), Enum.EasingStyle.Linear), {
+					local countdowntween = tweenservice:Create(p5.progressRef:getValue(), TweenInfo.new(p5.durationSeconds * (FastConsumeVal.Value / 40), Enum.EasingStyle.Linear), {
 						Size = UDim2.new(1, 0, 1, 0)
 					})
 					table.insert(p5.tweens, countdowntween)
@@ -2366,8 +2366,8 @@ run(function()
 				olddeflate = bedwars.BalloonController.deflateBalloon
 				bedwars.BalloonController.deflateBalloon = function() end
 
-				table.insert(Fly.Connections, inputService.InputBegan:Connect(function(input1)
-					if FlyVertical.Enabled and inputService:GetFocusedTextBox() == nil then
+				table.insert(Fly.Connections, inputservice.InputBegan:Connect(function(input1)
+					if FlyVertical.Enabled and inputservice:GetFocusedTextBox() == nil then
 						if input1.KeyCode == Enum.KeyCode.Space or input1.KeyCode == Enum.KeyCode.ButtonA then
 							FlyUp = true
 						end
@@ -2376,7 +2376,7 @@ run(function()
 						end
 					end
 				end))
-				table.insert(Fly.Connections, inputService.InputEnded:Connect(function(input1)
+				table.insert(Fly.Connections, inputservice.InputEnded:Connect(function(input1)
 					if input1.KeyCode == Enum.KeyCode.Space or input1.KeyCode == Enum.KeyCode.ButtonA then
 						FlyUp = false
 					end
@@ -2384,7 +2384,7 @@ run(function()
 						FlyDown = false
 					end
 				end))
-				if inputService.TouchEnabled then
+				if inputservice.TouchEnabled then
 					pcall(function()
 						local jumpButton = lplr.PlayerGui.TouchGui.TouchControlFrame.JumpButton
 						table.insert(Fly.Connections, jumpButton:GetPropertyChangedSignal("ImageRectOffset"):Connect(function()
@@ -2578,7 +2578,7 @@ FlyDamageAnimation = Fly.CreateToggle({
             task.spawn(function()
                 repeat
                     task.wait(0.1)
-                    for i,v in pairs(getconnections(gameCamera:GetPropertyChangedSignal("CameraType"))) do
+                    for i,v in pairs(getconnections(gamecamera:GetPropertyChangedSignal("CameraType"))) do
                         if v.Function then
                             camcontrol = debug.getupvalue(v.Function, 1)
                         end
@@ -2591,7 +2591,7 @@ FlyDamageAnimation = Fly.CreateToggle({
                     if numanim then numanim:Cancel() end
                     if Flydamagecamera.Enabled then
                         num.Value = 1000
-                        numanim = tweenService:Create(num, TweenInfo.new(0.5), {Value = 0})
+                        numanim = tweenservice:Create(num, TweenInfo.new(0.5), {Value = 0})
                         numanim:Play()
                     end
                 end
@@ -2600,8 +2600,8 @@ FlyDamageAnimation = Fly.CreateToggle({
                     if camcontrol.activeCameraController then
                         camcontrol.activeCameraController:UpdateMouseBehavior()
                         local newCameraCFrame, newCameraFocus = camcontrol.activeCameraController:Update(dt)
-                        gameCamera.CFrame = newCameraCFrame * CFrame.Angles(0, 0, math.rad(num.Value / 100))
-                        gameCamera.Focus = newCameraFocus
+                        gamecamera.CFrame = newCameraCFrame * CFrame.Angles(0, 0, math.rad(num.Value / 100))
+                        gamecamera.Focus = newCameraFocus
                         if camcontrol.activeTransparencyController then
                             camcontrol.activeTransparencyController:Update(dt)
                         end
@@ -2830,7 +2830,7 @@ run(function()
 				end
 
 				local function handleInput(input, began)
-					if InfiniteFlyVertical.Enabled and inputService:GetFocusedTextBox() == nil then
+					if InfiniteFlyVertical.Enabled and inputservice:GetFocusedTextBox() == nil then
 						if input.KeyCode == Enum.KeyCode.Space or input.KeyCode == Enum.KeyCode.ButtonA then
 							InfiniteFlyUp = began 
 						elseif input.KeyCode == Enum.KeyCode.LeftShift or input.KeyCode == Enum.KeyCode.ButtonL2 then 
@@ -2839,9 +2839,9 @@ run(function()
 					end 
 				end 
 
-				table.insert(InfiniteFly.Connections, inputService.InputBegan:Connect(function(input) handleInput(input, true) end))
-				table.insert(InfiniteFly.Connections, inputService.InputEnded:Connect(function(input) handleInput(input, false) end))
-				if inputService.TouchEnabled then 
+				table.insert(InfiniteFly.Connections, inputservice.InputBegan:Connect(function(input) handleInput(input, true) end))
+				table.insert(InfiniteFly.Connections, inputservice.InputEnded:Connect(function(input) handleInput(input, false) end))
+				if inputservice.TouchEnabled then 
 					pcall(function()
 						local jumpButton = lplr.PlayerGui.TouchGui.TouchControlFrame.JumpButton 
 						table.insert(InfiniteFly.Connections, jumpButton:GetPropertyChangedSignal("ImageRectOffset"):Connect(function()
@@ -2863,7 +2863,7 @@ run(function()
 					lplr.Character.Parent = game 
 					clone = oldcloneroot:Clone() 
 					clone.Parent = lplr.Character 
-					oldcloneroot.Parent = gameCamera 
+					oldcloneroot.Parent = gamecamera 
 					bedwars.QueryUtil:setQueryIgnored(oldcloneroot, true) 
 					clone.CFrame = oldcloneroot.CFrame 
 					lplr.Character.PrimaryPart = clone 
@@ -3260,7 +3260,7 @@ Funny = {
 			if store.matchState == 0 then return false end
 		end
 		if killauramouse.Enabled then
-			if not inputService:IsMouseButtonPressed(0) then return false end
+			if not inputservice:IsMouseButtonPressed(0) then return false end
 		end
 		if killauragui.Enabled then
 			if bedwars.AppController:isLayerOpen(bedwars.UILayers.MAIN) then return false end
@@ -3294,9 +3294,9 @@ Funny = {
 		Name = "Killaura",
 		Function = function(callback)
 			if callback then
-				if killauraaimcirclepart then killauraaimcirclepart.Parent = gameCamera end
-				if killaurarangecirclepart then killaurarangecirclepart.Parent = gameCamera end
-				if killauraparticlepart then killauraparticlepart.Parent = gameCamera end
+				if killauraaimcirclepart then killauraaimcirclepart.Parent = gamecamera end
+				if killaurarangecirclepart then killaurarangecirclepart.Parent = gamecamera end
+				if killauraparticlepart then killauraparticlepart.Parent = gamecamera end
 
 				task.spawn(function()
 					local oldNearPlayer
@@ -3306,17 +3306,17 @@ Funny = {
 							if killauraNearPlayer then
 								pcall(function()
 									if originalArmC0 == nil then
-										originalArmC0 = gameCamera.Viewmodel.RightHand.RightWrist.C0
+										originalArmC0 = gamecamera.Viewmodel.RightHand.RightWrist.C0
 									end
 									if killauraplaying == false then
 										killauraplaying = true
 										for i,v in pairs(anims[killauraanimmethod.Value]) do
 											if (not Killaura.Enabled) or (not killauraNearPlayer) then break end
 											if not oldNearPlayer and killauraanimationtween.Enabled then
-												gameCamera.Viewmodel.RightHand.RightWrist.C0 = originalArmC0 * v.CFrame
+												gamecamera.Viewmodel.RightHand.RightWrist.C0 = originalArmC0 * v.CFrame
 												continue
 											end
-											killauracurrentanim = tweenService:Create(gameCamera.Viewmodel.RightHand.RightWrist, TweenInfo.new(v.Time), {C0 = originalArmC0 * v.CFrame})
+											killauracurrentanim = tweenservice:Create(gamecamera.Viewmodel.RightHand.RightWrist, TweenInfo.new(v.Time), {C0 = originalArmC0 * v.CFrame})
 											killauracurrentanim:Play()
 											task.wait(v.Time - 0.01)
 										end
@@ -3503,16 +3503,16 @@ Funny = {
 						killauraNearPlayer = false
 						pcall(function()
 							if originalArmC0 == nil then
-								originalArmC0 = gameCamera.Viewmodel.RightHand.RightWrist.C0
+								originalArmC0 = gamecamera.Viewmodel.RightHand.RightWrist.C0
 							end
-							if gameCamera.Viewmodel.RightHand.RightWrist.C0 ~= originalArmC0 then
+							if gamecamera.Viewmodel.RightHand.RightWrist.C0 ~= originalArmC0 then
 								pcall(function()
 									killauracurrentanim:Cancel()
 								end)
 								if killauraanimationtween.Enabled then
-									gameCamera.Viewmodel.RightHand.RightWrist.C0 = originalArmC0
+									gamecamera.Viewmodel.RightHand.RightWrist.C0 = originalArmC0
 								else
-									killauracurrentanim = tweenservice:Create(gameCamera.Viewmodel.RightHand.RightWrist, TweenInfo.new(0.1), {C0 = originalArmC0})
+									killauracurrentanim = tweenservice:Create(gamecamera.Viewmodel.RightHand.RightWrist, TweenInfo.new(0.1), {C0 = originalArmC0})
 									killauracurrentanim:Play()
 								end
 							end
@@ -3547,16 +3547,16 @@ Funny = {
 						end
 					end
 					if originalArmC0 == nil then
-						originalArmC0 = gameCamera.Viewmodel.RightHand.RightWrist.C0
+						originalArmC0 = gamecamera.Viewmodel.RightHand.RightWrist.C0
 					end
-					if gameCamera.Viewmodel.RightHand.RightWrist.C0 ~= originalArmC0 then
+					if gamecamera.Viewmodel.RightHand.RightWrist.C0 ~= originalArmC0 then
 						pcall(function()
 							killauracurrentanim:Cancel()
 						end)
 						if killauraanimationtween.Enabled then
-							gameCamera.Viewmodel.RightHand.RightWrist.C0 = originalArmC0
+							gamecamera.Viewmodel.RightHand.RightWrist.C0 = originalArmC0
 						else
-							killauracurrentanim = tweenservice:Create(gameCamera.Viewmodel.RightHand.RightWrist, TweenInfo.new(0.1), {C0 = originalArmC0})
+							killauracurrentanim = tweenservice:Create(gamecamera.Viewmodel.RightHand.RightWrist, TweenInfo.new(0.1), {C0 = originalArmC0})
 							killauracurrentanim:Play()
 						end
 					end
@@ -3771,7 +3771,7 @@ Funny = {
 				killauraaimcirclepart.Material = Enum.Material.Neon
 				killauraaimcirclepart.Size = Vector3.new(0.5, 0.5, 0.5)
 				if Killaura.Enabled then
-					killauraaimcirclepart.Parent = gameCamera
+					killauraaimcirclepart.Parent = gamecamera
 				end
 				bedwars.QueryUtil:setQueryIgnored(killauraaimcirclepart, true)
 			else
@@ -3949,7 +3949,7 @@ run(function()
 				end
 				if LongJump.Enabled then
 					local vec = entityLibrary.character.HumanoidRootPart.CFrame.lookVector
-					replicatedStorage["events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"].useAbility:FireServer("dash", {
+					replicatedstorage["events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"].useAbility:FireServer("dash", {
 						direction = vec,
 						origin = entityLibrary.character.HumanoidRootPart.CFrame.p,
 						weapon = tnt.itemType
@@ -4197,7 +4197,7 @@ run(function()
 	overlapparams.RespectCanCollide = true
 
 	local function isPointInMapOccupied(p)
-		overlapparams.FilterDescendantsInstances = {lplr.Character, gameCamera}
+		overlapparams.FilterDescendantsInstances = {lplr.Character, gamecamera}
 		local possible = workspace:GetPartBoundsInBox(CFrame.new(p), Vector3.new(1, 2, 1), overlapparams)
 		return (#possible == 0)
 	end
@@ -4209,7 +4209,7 @@ run(function()
 				RunLoops:BindToHeartbeat("Phase", function()
 					if entityLibrary.isAlive and entityLibrary.character.Humanoid.MoveDirection ~= Vector3.zero and (not GuiLibrary.ObjectsThatCanBeSaved.SpiderOptionsButton.Api.Enabled or holdingshift) then
 						if PhaseDelay <= tick() then
-							raycastparameters.FilterDescendantsInstances = {store.blocks, collectionService:GetTagged("spawn-cage")}
+							raycastparameters.FilterDescendantsInstances = {store.blocks, collection:GetTagged("spawn-cage")}
 							local PhaseRayCheck = workspace:Raycast(entityLibrary.character.Head.CFrame.p, entityLibrary.character.Humanoid.MoveDirection * 1.15, raycastparameters)
 							if PhaseRayCheck then
 								local PhaseDirection = (PhaseRayCheck.Normal.Z ~= 0 or not PhaseRayCheck.Instance:GetAttribute("GreedyBlock")) and "Z" or "X"
@@ -4408,7 +4408,7 @@ run(function()
 							if store.localHand.Type ~= "block" then continue end
 						end
 						if ScaffoldMouseCheck.Enabled then
-							if not inputService:IsMouseButtonPressed(0) then continue end
+							if not inputservice:IsMouseButtonPressed(0) then continue end
 						end
 						if entityLibrary.isAlive then
 							local wool, woolamount = getWool()
@@ -4423,7 +4423,7 @@ run(function()
 							scaffoldtext.TextColor3 = woolamount and (woolamount >= 128 and Color3.fromRGB(9, 255, 198) or woolamount >= 64 and Color3.fromRGB(255, 249, 18)) or Color3.fromRGB(255, 0, 0)
 							if not wool then continue end
 
-							local towering = ScaffoldTower.Enabled and inputService:IsKeyDown(Enum.KeyCode.Space) and game:GetService("UserInputService"):GetFocusedTextBox() == nil
+							local towering = ScaffoldTower.Enabled and inputservice:IsKeyDown(Enum.KeyCode.Space) and game:GetService("Userinputservice"):GetFocusedTextBox() == nil
 							if towering then
 								if (not scaffoldstopmotionval) and ScaffoldStopMotion.Enabled then
 									scaffoldstopmotionval = true
@@ -4438,7 +4438,7 @@ run(function()
 							end
 
 							for i = 1, ScaffoldExpand.Value do
-								local speedCFrame = getScaffold((entityLibrary.character.HumanoidRootPart.Position + ((scaffoldstopmotionval and Vector3.zero or entityLibrary.character.Humanoid.MoveDirection) * (i * 3.5))) + Vector3.new(0, -((entityLibrary.character.HumanoidRootPart.Size.Y / 2) + entityLibrary.character.Humanoid.HipHeight + (inputService:IsKeyDown(Enum.KeyCode.LeftShift) and ScaffoldDownwards.Enabled and 4.5 or 1.5))), 0)
+								local speedCFrame = getScaffold((entityLibrary.character.HumanoidRootPart.Position + ((scaffoldstopmotionval and Vector3.zero or entityLibrary.character.Humanoid.MoveDirection) * (i * 3.5))) + Vector3.new(0, -((entityLibrary.character.HumanoidRootPart.Size.Y / 2) + entityLibrary.character.Humanoid.HipHeight + (inputservice:IsKeyDown(Enum.KeyCode.LeftShift) and ScaffoldDownwards.Enabled and 4.5 or 1.5))), 0)
 								speedCFrame = Vector3.new(speedCFrame.X, speedCFrame.Y - (towering and 4 or 0), speedCFrame.Z)
 								if speedCFrame ~= oldpos then
 									if not checkblocks(speedCFrame) then
@@ -4677,12 +4677,12 @@ run(function()
 		Name = "Spider",
 		Function = function(callback)
 			if callback then
-				table.insert(Spider.Connections, inputService.InputBegan:Connect(function(input1)
+				table.insert(Spider.Connections, inputservice.InputBegan:Connect(function(input1)
 					if input1.KeyCode == Enum.KeyCode.LeftShift then
 						holdingshift = true
 					end
 				end))
-				table.insert(Spider.Connections, inputService.InputEnded:Connect(function(input1)
+				table.insert(Spider.Connections, inputservice.InputEnded:Connect(function(input1)
 					if input1.KeyCode == Enum.KeyCode.LeftShift then
 						holdingshift = false
 					end
@@ -4708,7 +4708,7 @@ run(function()
 								SpiderPart.Size = Vector3.new(2, 2, 2)
 								SpiderPart.Transparency = 1
 								SpiderPart.Anchored = true
-								SpiderPart.Parent = gameCamera
+								SpiderPart.Parent = gamecamera
 							end
 							local newray2, newray2pos = getPlacedBlock(entityLibrary.character.HumanoidRootPart.Position + ((entityLibrary.character.HumanoidRootPart.CFrame.lookVector * 1.5) - Vector3.new(0, entityLibrary.character.Humanoid.HipHeight, 0)))
 							if newray2 and (not newray2.CanCollide) then newray2 = nil end
@@ -4768,7 +4768,7 @@ run(function()
 					block = Instance.new("Part")
 					block.Anchored = true
 					block.CanCollide = false
-					block.Parent = gameCamera
+					block.Parent = gamecamera
 					controlmodule.moveFunction = function(Self, vec, facecam, ...)
 						if entityLibrary.isAlive then
 							local plr = AllNearPosition(TargetStrafeRange.Value + 5, 10)[1]
@@ -4827,7 +4827,7 @@ run(function()
 		Name = "BedESP",
 		Function = function(callback)
 			if callback then
-				table.insert(BedESP.Connections, collectionService:GetInstanceAddedSignal("bed"):Connect(function(bed)
+				table.insert(BedESP.Connections, collection:GetInstanceAddedSignal("bed"):Connect(function(bed)
 					task.wait(0.2)
 					if not BedESP.Enabled then return end
 					local BedFolder = Instance.new("Folder")
@@ -4846,13 +4846,13 @@ run(function()
 						boxhandle.Parent = BedFolder
 					end
 				end))
-				table.insert(BedESP.Connections, collectionService:GetInstanceRemovedSignal("bed"):Connect(function(bed)
+				table.insert(BedESP.Connections, collection:GetInstanceRemovedSignal("bed"):Connect(function(bed)
 					if BedESPTable[bed] then
 						BedESPTable[bed]:Destroy()
 						BedESPTable[bed] = nil
 					end
 				end))
-				for i, bed in pairs(collectionService:GetTagged("bed")) do
+				for i, bed in pairs(collection:GetTagged("bed")) do
 					local BedFolder = Instance.new("Folder")
 					BedFolder.Parent = BedESPFolder
 					BedESPTable[bed] = BedFolder
@@ -4994,16 +4994,16 @@ run(function()
 						end
 					end
 				end))
-				table.insert(BedPlates.Connections, collectionService:GetInstanceAddedSignal("bed"):Connect(function(v)
+				table.insert(BedPlates.Connections, collection:GetInstanceAddedSignal("bed"):Connect(function(v)
 					addBed(v)
 				end))
-				table.insert(BedPlates.Connections, collectionService:GetInstanceRemovedSignal("bed"):Connect(function(v)
+				table.insert(BedPlates.Connections, collection:GetInstanceRemovedSignal("bed"):Connect(function(v)
 					if BedPlatesTable[v] then
 						BedPlatesTable[v]:Destroy()
 						BedPlatesTable[v] = nil
 					end
 				end))
-				for i, v in pairs(collectionService:GetTagged("bed")) do
+				for i, v in pairs(collection:GetTagged("bed")) do
 					addBed(v)
 				end
 			else
@@ -5100,8 +5100,8 @@ run(function()
 		Function = function(callback)
 			if callback then
 				task.spawn(function()
-					table.insert(ChestESP.Connections, collectionService:GetInstanceAddedSignal("chest"):Connect(chestfunc))
-					for i,v in pairs(collectionService:GetTagged("chest")) do chestfunc(v) end
+					table.insert(ChestESP.Connections, collection:GetInstanceAddedSignal("chest"):Connect(chestfunc))
+					for i,v in pairs(collection:GetTagged("chest")) do chestfunc(v) end
 				end)
 			else
 				ChestESPFolder:ClearAllChildren()
@@ -5151,7 +5151,7 @@ run(function()
                     task.spawn(function()
                         repeat
                             task.wait()
-                        until not inputService:IsKeyDown(Enum.KeyCode[FieldOfView.Keybind ~= "" and FieldOfView.Keybind or "C"])
+                        until not inputservice:IsKeyDown(Enum.KeyCode[FieldOfView.Keybind ~= "" and FieldOfView.Keybind or "C"])
                         if FieldOfView.Enabled then
                             FieldOfView.ToggleButton(false)
                         end
@@ -5269,7 +5269,7 @@ run(function()
 				damagetab.textSize = 28
 				damagetab.blowUpDuration = 0.125
 				damagetab.blowUpSize = 76
-				debug.setupvalue(bedwars.DamageIndicator, 10, tweenService)
+				debug.setupvalue(bedwars.DamageIndicator, 10, tweenservice)
 				if bedwars.DamageIndicatorController.hitEffectPart then
 					bedwars.DamageIndicatorController.hitEffectPart.Attachment.Cubes.Enabled = true
 					bedwars.DamageIndicatorController.hitEffectPart.Attachment.Shards.Enabled = true
@@ -5500,14 +5500,14 @@ run(function()
 							obj.Parent.Parent.Parent.Parent.Velocity = Vector3.new((math.random(-50, 50) / 100) * damagetab.velX, (math.random(50, 60) / 100) * damagetab.velY, (math.random(-50, 50) / 100) * damagetab.velZ)
 							local textcompare = obj.Parent.TextColor3
 							if textcompare ~= Color3.fromRGB(85, 255, 85) then
-								local newtween = tweenService:Create(obj.Parent, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
+								local newtween = tweenservice:Create(obj.Parent, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
 									TextColor3 = (textcompare == Color3.fromRGB(76, 175, 93) and Color3.new(0, 0, 0) or Color3.new(1, 1, 1))
 								})
 								task.wait(0.15)
 								newtween:Play()
 							end
 						end)
-						return tweenService:Create(obj, ...)
+						return tweenservice:Create(obj, ...)
 					end
 				})
 				sethiddenproperty(lightingService, "Technology", "ShadowMap")
@@ -5588,14 +5588,14 @@ run(function()
 							obj.Parent.Parent.Parent.Parent.Velocity = Vector3.new((math.random(-50, 50) / 100) * damagetab.velX, (math.random(50, 60) / 100) * damagetab.velY, (math.random(-50, 50) / 100) * damagetab.velZ)
 							local textcompare = obj.Parent.TextColor3
 							if textcompare ~= Color3.fromRGB(85, 255, 85) then
-								local newtween = tweenService:Create(obj.Parent, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
+								local newtween = tweenservice:Create(obj.Parent, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
 									TextColor3 = (textcompare == Color3.fromRGB(76, 175, 93) and Color3.new(1, 1, 1) or Color3.new(0, 0, 0))
 								})
 								task.wait(0.15)
 								newtween:Play()
 							end
 						end)
-						return tweenService:Create(obj, ...)
+						return tweenservice:Create(obj, ...)
 					end
 				})
 				debug.setconstant(require(lplr.PlayerScripts.TS.controllers.global.hotbar.ui.healthbar["hotbar-healthbar"]).HotbarHealthbar.render, 16, 4653055)
@@ -5671,14 +5671,14 @@ run(function()
 							obj.Parent.Parent.Parent.Parent.Velocity = Vector3.new((math.random(-50, 50) / 100) * damagetab.velX, (math.random(50, 60) / 100) * damagetab.velY, (math.random(-50, 50) / 100) * damagetab.velZ)
 							local textcompare = obj.Parent.TextColor3
 							if textcompare ~= Color3.fromRGB(85, 255, 85) then
-								local newtween = tweenService:Create(obj.Parent, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
+								local newtween = tweenservice:Create(obj.Parent, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
 									TextColor3 = (textcompare == Color3.fromRGB(76, 175, 93) and Color3.new(0, 0, 0) or Color3.new(0, 0, 0))
 								})
 								task.wait(0.15)
 								newtween:Play()
 							end
 						end)
-						return tweenService:Create(obj, ...)
+						return tweenservice:Create(obj, ...)
 					end
 				})
 				local colorcorrection = Instance.new("ColorCorrectionEffect")
@@ -5722,14 +5722,14 @@ run(function()
 							obj.Parent.Parent.Parent.Parent.Velocity = Vector3.new((math.random(-50, 50) / 100) * damagetab.velX, (math.random(50, 60) / 100) * damagetab.velY, (math.random(-50, 50) / 100) * damagetab.velZ)
 							local textcompare = obj.Parent.TextColor3
 							if textcompare ~= Color3.fromRGB(85, 255, 85) then
-								local newtween = tweenService:Create(obj.Parent, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
+								local newtween = tweenservice:Create(obj.Parent, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
 									TextColor3 = (textcompare == Color3.fromRGB(76, 175, 93) and Color3.new(0, 0, 0) or Color3.new(0, 0, 0))
 								})
 								task.wait(0.15)
 								newtween:Play()
 							end
 						end)
-						return tweenService:Create(obj, ...)
+						return tweenservice:Create(obj, ...)
 					end
 				})
 				local colorcorrection = Instance.new("ColorCorrectionEffect")
@@ -5938,16 +5938,16 @@ run(function()
 	end
 
 	local function addKit(tag, icon)
-		table.insert(KitESP.Connections, collectionService:GetInstanceAddedSignal(tag):Connect(function(v)
+		table.insert(KitESP.Connections, collection:GetInstanceAddedSignal(tag):Connect(function(v)
 			espadd(v.PrimaryPart, icon)
 		end))
-		table.insert(KitESP.Connections, collectionService:GetInstanceRemovedSignal(tag):Connect(function(v)
+		table.insert(KitESP.Connections, collection:GetInstanceRemovedSignal(tag):Connect(function(v)
 			if espobjs[v.PrimaryPart] then
 				espobjs[v.PrimaryPart]:Destroy()
 				espobjs[v.PrimaryPart] = nil
 			end
 		end))
-		for i,v in pairs(collectionService:GetTagged(tag)) do
+		for i,v in pairs(collection:GetTagged(tag)) do
 			espadd(v.PrimaryPart, icon)
 		end
 	end
@@ -6421,9 +6421,9 @@ run(function()
 			repeat task.wait() until SongAudio.IsLoaded or (not SongBeats.Enabled)
 			if (not SongBeats.Enabled) then break end
 			local newfov = math.min(bedwars.FovController:getFOV() * (bedwars.SprintController.sprinting and 1.1 or 1), 120)
-			gameCamera.FieldOfView = newfov - SongBeatsIntensity.Value
+			gamecamera.FieldOfView = newfov - SongBeatsIntensity.Value
 			if SongTween then SongTween:Cancel() end
-			SongTween = game:GetService("TweenService"):Create(gameCamera, TweenInfo.new(0.2), {FieldOfView = newfov})
+			SongTween = game:GetService("tweenservice"):Create(gamecamera, TweenInfo.new(0.2), {FieldOfView = newfov})
 			SongTween:Play()
 			task.wait(bpm)
 		until (not SongBeats.Enabled) or SongAudio.IsPaused
@@ -6452,7 +6452,7 @@ run(function()
 			else
 				if SongAudio then SongAudio:Destroy() end
 				if SongTween then SongTween:Cancel() end
-				gameCamera.FieldOfView = bedwars.FovController:getFOV() * (bedwars.SprintController.sprinting and 1.1 or 1)
+				gamecamera.FieldOfView = bedwars.FovController:getFOV() * (bedwars.SprintController.sprinting and 1.1 or 1)
 			end
 		end
 	})
@@ -6479,8 +6479,8 @@ run(function()
 				task.spawn(function()
 					local hotbar = require(lplr.PlayerScripts.TS.controllers.global.hotbar.ui["hotbar-app"]).HotbarApp
 					local hotbaropeninv = require(lplr.PlayerScripts.TS.controllers.global.hotbar.ui["hotbar-open-inventory"]).HotbarOpenInventory
-					local topbarbutton = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out).TopBarButton
-					local gametheme = require(replicatedStorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out.shared.ui["game-theme"]).GameTheme
+					local topbarbutton = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out).TopBarButton
+					local gametheme = require(replicatedstorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out.shared.ui["game-theme"]).GameTheme
 					bedwars.AppController:closeApp("TopBarApp")
 					local oldrender = topbarbutton.render
 					topbarbutton.render = function(self)
@@ -6713,10 +6713,10 @@ run(function()
 
 	task.spawn(function()
 		repeat task.wait() until store.matchState ~= 0 or not vapeInjected
-		for i,v in pairs(collectionService:GetTagged("BedwarsItemShop")) do
+		for i,v in pairs(collection:GetTagged("BedwarsItemShop")) do
 			table.insert(bedwarsshopnpcs, {Position = v.Position, TeamUpgradeNPC = true, Id = v.Name})
 		end
-		for i,v in pairs(collectionService:GetTagged("TeamUpgradeShopkeeper")) do
+		for i,v in pairs(collection:GetTagged("TeamUpgradeShopkeeper")) do
 			table.insert(bedwarsshopnpcs, {Position = v.Position, TeamUpgradeNPC = false, Id = v.Name})
 		end
 	end)
@@ -6725,10 +6725,10 @@ run(function()
 		local npc, npccheck, enchant, newid = nil, false, false, nil
 		if entityLibrary.isAlive then
 			local enchanttab = {}
-			for i,v in pairs(collectionService:GetTagged("broken-enchant-table")) do
+			for i,v in pairs(collection:GetTagged("broken-enchant-table")) do
 				table.insert(enchanttab, v)
 			end
-			for i,v in pairs(collectionService:GetTagged("enchant-table")) do
+			for i,v in pairs(collection:GetTagged("enchant-table")) do
 				table.insert(enchanttab, v)
 			end
 			for i,v in pairs(enchanttab) do
@@ -7282,14 +7282,14 @@ run(function()
 							task.spawn(function()
 								repeat
 									task.wait()
-									local itemdrops = collectionService:GetTagged("treeOrb")
+									local itemdrops = collection:GetTagged("treeOrb")
 									for i,v in pairs(itemdrops) do
 										if entityLibrary.isAlive and v:FindFirstChild("Spirit") and (entityLibrary.character.HumanoidRootPart.Position - v.Spirit.Position).magnitude <= 20 then
 											if bedwars.Client:Get(bedwars.TreeRemote):CallServer({
 												treeOrbSecret = v:GetAttribute("TreeOrbSecret")
 											}) then
 												v:Destroy()
-												collectionService:RemoveTag(v, "treeOrb")
+												collection:RemoveTag(v, "treeOrb")
 											end
 										end
 									end
@@ -7299,7 +7299,7 @@ run(function()
 							task.spawn(function()
 								repeat
 									task.wait()
-									local itemdrops = collectionService:GetTagged("hidden-metal")
+									local itemdrops = collection:GetTagged("hidden-metal")
 									for i,v in pairs(itemdrops) do
 										if entityLibrary.isAlive and v.PrimaryPart and (entityLibrary.character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude <= 20 then
 											bedwars.Client:Get(bedwars.PickupMetalRemote):SendToServer({
@@ -7342,7 +7342,7 @@ run(function()
 							task.spawn(function()
 								repeat
 									task.wait()
-									local itemdrops = collectionService:GetTagged("HarvestableCrop")
+									local itemdrops = collection:GetTagged("HarvestableCrop")
 									for i,v in pairs(itemdrops) do
 										if entityLibrary.isAlive and (entityLibrary.character.HumanoidRootPart.Position - v.Position).magnitude <= 10 then
 											bedwars.Client:Get("CropHarvest"):CallServerAsync({
@@ -7361,7 +7361,7 @@ run(function()
 							task.spawn(function()
 								repeat
 									task.wait()
-									local itemdrops = collectionService:GetTagged(lplr.Name..':pinata')
+									local itemdrops = collection:GetTagged(lplr.Name..':pinata')
 									for i,v in pairs(itemdrops) do
 										if entityLibrary.isAlive and getItem('candy') then
 											bedwars.Client:Get(bedwars.PinataRemote):CallServer(v)
@@ -7394,7 +7394,7 @@ run(function()
 								repeat
 									task.wait(0.1)
 									if entityLibrary.isAlive then
-										for i, v in pairs(collectionService:GetTagged("TomeGuidingBeam")) do
+										for i, v in pairs(collection:GetTagged("TomeGuidingBeam")) do
 											local obj = v.Parent and v.Parent.Parent and v.Parent.Parent.Parent
 											if obj and (entityLibrary.character.HumanoidRootPart.Position - obj.PrimaryPart.Position).Magnitude < 5 and obj:GetAttribute("TomeSecret") then
 												local res = bedwars.Client:Get(bedwars.MageRemote):CallServer({
@@ -7445,7 +7445,7 @@ run(function()
 															["petrifyId"] = a:GetAttribute("PetrifyId")
 														}
 													}
-													local b = game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DestroyPetrifiedPlayer"):FireServer(unpack(args))
+													local b = game:GetService("replicatedstorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DestroyPetrifiedPlayer"):FireServer(unpack(args))
 												end
 											end
 										end
@@ -7487,7 +7487,7 @@ run(function()
 																	["collectableName"] = "AlchemyCrystal"
 																}
 															}
-															game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("CollectCollectableEntity"):FireServer(unpack(args))
+															game:GetService("replicatedstorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("CollectCollectableEntity"):FireServer(unpack(args))
 														end
 													end
 												end
@@ -7504,7 +7504,7 @@ run(function()
 										local args = {
 											[1] = "enable_life_force_attack"
 										}
-										game:GetService("ReplicatedStorage"):WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("useAbility"):FireServer(unpack(args))
+										game:GetService("replicatedstorage"):WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("useAbility"):FireServer(unpack(args))
 										local function shouldUse()
 											local lplr = game:GetService("Players").LocalPlayer
 											if not (lplr.Character:FindFirstChild("Humanoid")) then
@@ -7526,7 +7526,7 @@ run(function()
 											local args = {
 												[1] = "consume_life_foce"
 											}
-											game:GetService("ReplicatedStorage"):WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("useAbility"):FireServer(unpack(args))
+											game:GetService("replicatedstorage"):WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("useAbility"):FireServer(unpack(args))
 										end
 									end
 								until (not AutoKit.Enabled)
@@ -7555,7 +7555,7 @@ run(function()
 										["position"] = position
 									}
 								}
-								return game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("ActivateGravestone"):InvokeServer(unpack(args))								
+								return game:GetService("replicatedstorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("ActivateGravestone"):InvokeServer(unpack(args))								
 							end
 							local function verifyAttributes(obj)
 								if (not obj) then return warn("[AutoKit - necromancer.verifyAttributes]: No object specified!") end
@@ -7692,7 +7692,7 @@ run(function()
 				task.spawn(function()
 					repeat
 						task.wait()
-						for i,v in pairs(playersService:GetPlayers()) do
+						for i,v in pairs(playersservice:GetPlayers()) do
 							if v ~= lplr and alreadyreportedlist[v] == nil and v:GetAttribute("PlayerConnected") and whitelist:get(v) == 0 then
 								task.wait(1)
 								alreadyreportedlist[v] = true
@@ -7762,7 +7762,7 @@ run(function()
 		if textChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 			textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(message)
 		else
-			replicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, 'All')
+			replicatedstorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, 'All')
 		end
 	end
 
@@ -7786,8 +7786,8 @@ run(function()
 
 				table.insert(AutoToxic.Connections, vapeEvents.EntityDeathEvent.Event:Connect(function(deathTable)
 					if deathTable.finalKill then
-						local killer = playersService:GetPlayerFromCharacter(deathTable.fromEntity)
-						local killed = playersService:GetPlayerFromCharacter(deathTable.entityInstance)
+						local killer = playersservice:GetPlayerFromCharacter(deathTable.fromEntity)
+						local killed = playersservice:GetPlayerFromCharacter(deathTable.entityInstance)
 						if not killed or not killer then return end
 						if killed == lplr then 
 							if (not leavesaid) and killer ~= lplr and AutoToxicDeath.Enabled then
@@ -7822,7 +7822,7 @@ run(function()
 
 				table.insert(AutoToxic.Connections, textChatService.MessageReceived:Connect(function(tab)
 					if AutoToxicRespond.Enabled then
-						local plr = playersService:GetPlayerByUserId(tab.TextSource.UserId)
+						local plr = playersservice:GetPlayerByUserId(tab.TextSource.UserId)
 						if plr and plr ~= lplr and not alreadyreported[plr] then
 							local reportreason, reportedmatch = findreport(tab.Text)
 							if reportreason then
@@ -7950,7 +7950,7 @@ run(function()
 			end
 		end,
 		Closed = function()
-			for i, v in pairs(collectionService:GetTagged("chest")) do
+			for i, v in pairs(collection:GetTagged("chest")) do
 				if ((entityLibrary.LocalPosition or entityLibrary.character.HumanoidRootPart.Position) - v.Position).magnitude <= ChestStealerDistance.Value then
 					local chest = v:FindFirstChild("ChestFolderValue")
 					chest = chest and chest.Value or nil
@@ -8028,7 +8028,7 @@ run(function()
 				task.spawn(function()
 					repeat
 						task.wait()
-						if entityLibrary.isAlive and (not store.localInventory.opened) and (inputService:IsKeyDown(Enum.KeyCode.Q) or inputService:IsKeyDown(Enum.KeyCode.Backspace)) and inputService:GetFocusedTextBox() == nil then
+						if entityLibrary.isAlive and (not store.localInventory.opened) and (inputservice:IsKeyDown(Enum.KeyCode.Q) or inputservice:IsKeyDown(Enum.KeyCode.Backspace)) and inputservice:GetFocusedTextBox() == nil then
 							task.spawn(bedwars.DropItem)
 						end
 					until (not FastDrop.Enabled)
@@ -8065,7 +8065,7 @@ run(function()
 									task.wait()
 									if projectile.model then
 										if plr then
-											projectile.model:SetPrimaryPartCFrame(CFrame.new(plr.RootPart.CFrame.p, plr.RootPart.CFrame.p + gameCamera.CFrame.lookVector))
+											projectile.model:SetPrimaryPartCFrame(CFrame.new(plr.RootPart.CFrame.p, plr.RootPart.CFrame.p + gamecamera.CFrame.lookVector))
 										else
 											warningNotification("MissileTP", "Player died before it could TP.", 3)
 											break
@@ -8099,7 +8099,7 @@ run(function()
 				local pickedup = {}
 				task.spawn(function()
 					repeat
-						local itemdrops = collectionService:GetTagged("ItemDrop")
+						local itemdrops = collection:GetTagged("ItemDrop")
 						for i,v in pairs(itemdrops) do
 							if entityLibrary.isAlive and (v:GetAttribute("ClientDropTime") and tick() - v:GetAttribute("ClientDropTime") > 2 or v:GetAttribute("ClientDropTime") == nil) then
 								if ((entityLibrary.LocalPosition or entityLibrary.character.HumanoidRootPart.Position) - v.Position).magnitude <= PickupRangeRange.Value and (pickedup[v] == nil or pickedup[v] <= tick()) then
@@ -8237,7 +8237,7 @@ run(function()
 							bodyforce.Parent = projectilemodel.PrimaryPart
 
 							if plr then
-								projectilemodel:SetPrimaryPartCFrame(CFrame.new(plr.RootPart.CFrame.p, plr.RootPart.CFrame.p + gameCamera.CFrame.lookVector))
+								projectilemodel:SetPrimaryPartCFrame(CFrame.new(plr.RootPart.CFrame.p, plr.RootPart.CFrame.p + gamecamera.CFrame.lookVector))
 								task.wait(0.3)
 								bedwars.RavenController:detonateRaven()
 							else
@@ -8595,7 +8595,7 @@ run(function()
 		Function = function(callback)
 			if callback then
 				task.spawn(function()
-					for i, obj in pairs(collectionService:GetTagged("bed")) do
+					for i, obj in pairs(collection:GetTagged("bed")) do
 						if entityLibrary.isAlive and obj:GetAttribute("Team"..(lplr:GetAttribute("Team") or 0).."NoBreak") and obj.Parent ~= nil then
 							if (entityLibrary.character.HumanoidRootPart.Position - obj.Position).magnitude <= bedprotectorrange.Value then
 								local firstlayerplaced = placelayer(bedprotector1stlayer, obj, {"obsidian", "stone_brick", "plank_oak", getWool()})
@@ -8662,7 +8662,7 @@ run(function()
 			local broke = false
 
 			if nukerSettings.beds.Enabled then
-				for _, obj in pairs(collectionService:GetTagged("bed")) do
+				for _, obj in pairs(collection:GetTagged("bed")) do
 					if obj.Parent ~= nil then
 						if obj:GetAttribute("BedShieldEndTime") then
 							if obj:GetAttribute("BedShieldEndTime") > workspace:GetServerTimeNow() then
@@ -8701,14 +8701,14 @@ run(function()
 		Function = function(callback)
 			if callback then
 				updateLuckyBlockTable()
-				table.insert(Nuker.Connections, collectionService:GetInstanceAddedSignal("block"):Connect(function(v)
+				table.insert(Nuker.Connections, collection:GetInstanceAddedSignal("block"):Connect(function(v)
 					if table.find(nukerSettings.custom.ObjectList, v.Name) or 
 					   (nukerSettings.luckyblock.Enabled and v.Name:find("lucky")) or 
 					   (nukerSettings.ironore.Enabled and v.Name == "iron_ore") then
 						table.insert(luckyblocktable, v)
 					end
 				end))
-				table.insert(Nuker.Connections, collectionService:GetInstanceRemovedSignal("block"):Connect(function(v)
+				table.insert(Nuker.Connections, collection:GetInstanceRemovedSignal("block"):Connect(function(v)
 					local index = table.find(luckyblocktable, v)
 					if index then
 						table.remove(luckyblocktable, index)
@@ -9151,7 +9151,7 @@ run(function()
 	end
 
 	local function notlasso()
-		for i,v in pairs(collectionService:GetTagged("LassoHooked")) do
+		for i,v in pairs(collection:GetTagged("LassoHooked")) do
 			if v == lplr.Character then
 				return false
 			end
@@ -9174,15 +9174,15 @@ run(function()
 					elseif p3.projectile == "swap_ball" then
 						if p3.hitEntity then
 							teleported[p3.shooterPlayer] = true
-							local plr = playersService:GetPlayerFromCharacter(p3.hitEntity)
+							local plr = playersservice:GetPlayerFromCharacter(p3.hitEntity)
 							if plr then teleported[plr] = true end
 						end
 					end
 				end))
 
-				table.insert(overlayconnections, replicatedStorage["events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"].abilityUsed.OnClientEvent:Connect(function(char, ability)
+				table.insert(overlayconnections, replicatedstorage["events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"].abilityUsed.OnClientEvent:Connect(function(char, ability)
 					if ability == "recall" or ability == "hatter_teleport" or ability == "spirit_assassin_teleport" or ability == "hannah_execute" then
-						local plr = playersService:GetPlayerFromCharacter(char)
+						local plr = playersservice:GetPlayerFromCharacter(char)
 						if plr then
 							teleportedability[plr] = tick() + (ability == "recall" and 12 or 1)
 						end
@@ -9205,8 +9205,8 @@ run(function()
 
 				table.insert(overlayconnections, vapeEvents.EntityDeathEvent.Event:Connect(function(deathTable)
 					if deathTable.finalKill then
-						local killer = playersService:GetPlayerFromCharacter(deathTable.fromEntity)
-						local killed = playersService:GetPlayerFromCharacter(deathTable.entityInstance)
+						local killer = playersservice:GetPlayerFromCharacter(deathTable.fromEntity)
+						local killed = playersservice:GetPlayerFromCharacter(deathTable.entityInstance)
 						if not killed or not killer then return end
 						if killed ~= lplr and killer == lplr then
 							store.statistics.kills = store.statistics.kills + 1
@@ -9337,7 +9337,7 @@ run(function()
         Name = "InfiniteJump",
         Function = function(call: boolean)
             if call then
-                InfiniteJump.Connection = game:GetService("UserInputService").JumpRequest:Connect(function()
+                InfiniteJump.Connection = game:GetService("Userinputservice").JumpRequest:Connect(function()
                     if not InfiniteJump.Enabled then return end
                     if lplr.Character and lplr.Character:FindFirstChildOfClass("Humanoid") then
                         local hum = lplr.Character:FindFirstChildOfClass("Humanoid")
@@ -9356,8 +9356,8 @@ end)
 
 run(function()
     local AutoUpgradeStats: vapemodule = {}
-    local replicatedStorage = game:GetService("ReplicatedStorage")
-    local netManaged = replicatedStorage.rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged
+    local replicatedstorage = game:GetService("replicatedstorage")
+    local netManaged = replicatedstorage.rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged
 
     AutoUpgradeStats = visual.Api.CreateOptionsButton({
         Name = "AutoUpgradeStats",
@@ -9730,8 +9730,8 @@ end)
 
 run(function()
     local BedTP: vapemodule = {}
-    local TweenService = game:GetService("TweenService")
-    local collectionService = game:GetService("CollectionService")
+    local tweenservice = game:GetService("tweenservice")
+    local collection = game:GetService("CollectionService")
     local lplr = game.Players.LocalPlayer
 
     local tppos2 = nil
@@ -9751,7 +9751,7 @@ run(function()
             if (destination - currentPosition).Magnitude > 0.5 then
                 local tweenInfo = TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
                 local goal = {CFrame = CFrame.new(destination)}
-                local tween = TweenService:Create(root, tweenInfo, goal)
+                local tween = tweenservice:Create(root, tweenInfo, goal)
                 tween:Play()
                 tween.Completed:Wait()
                 BedTP.ToggleButton(false)
@@ -9779,7 +9779,7 @@ run(function()
 
         local localPos = lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart") and lplr.Character.HumanoidRootPart.Position or Vector3.zero
         local playerTeam = lplr:GetAttribute('Team')
-        local beds = collectionService:GetTagged('bed')
+        local beds = collection:GetTagged('bed')
 
         for _, v in ipairs(beds) do 
             if v:GetAttribute('PlacedByUserId') == 0 then
@@ -9866,7 +9866,7 @@ end)
 run(function()
     local PlayerTp: vapemodule = {}
     local hasTeleported = false
-    local TweenService = game:GetService("TweenService")
+    local tweenservice = game:GetService("tweenservice")
 
     local function findNearestPlayer()
         local nearestPlayer = nil
@@ -9891,7 +9891,7 @@ run(function()
 
             local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0)
 
-            local tween = TweenService:Create(lplr.Character.HumanoidRootPart, TweenInfo.new(0.64), {CFrame = nearestPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 2, 0)})
+            local tween = tweenservice:Create(lplr.Character.HumanoidRootPart, TweenInfo.new(0.64), {CFrame = nearestPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 2, 0)})
             tween:Play()
         end
     end
@@ -9933,14 +9933,14 @@ run(function()
             if call then 
                 for i,v in next, bedwars.QueueMeta do 
                     if v.title == queuetojoin.Value then 
-                        game:GetService("ReplicatedStorage"):WaitForChild("events-@easy-games/lobby:shared/event/lobby-events@getEvents.Events"):WaitForChild("leaveQueue"):FireServer()
+                        game:GetService("replicatedstorage"):WaitForChild("events-@easy-games/lobby:shared/event/lobby-events@getEvents.Events"):WaitForChild("leaveQueue"):FireServer()
                         task.wait(0.1)
                         local args = {
                             [1] = {
                                 ["queueType"] = i
                             }
                         }
-                        game:GetService("ReplicatedStorage"):WaitForChild("events-@easy-games/lobby:shared/event/lobby-events@getEvents.Events"):WaitForChild("joinQueue"):FireServer(unpack(args))
+                        game:GetService("replicatedstorage"):WaitForChild("events-@easy-games/lobby:shared/event/lobby-events@getEvents.Events"):WaitForChild("joinQueue"):FireServer(unpack(args))
                         local listofmodes = {}
                         for i,v in pairs(bedwars.QueueMeta) do
                         if not v.disabled and not v.voiceChatOnly and not v.rankCategory then table.insert(listofmodes, i) end
@@ -9993,7 +9993,7 @@ run(function()
                             }
                         }
 
-                        game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.BedwarsPurchaseItem:InvokeServer(unpack(args))
+                        game:GetService("replicatedstorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.BedwarsPurchaseItem:InvokeServer(unpack(args))
                         
                         task.wait(0.1)
                     until (not FourEXploit.Enabled)
@@ -10176,7 +10176,7 @@ Aquaripack = visual.Api.CreateOptionsButton({
             local objs = game:GetObjects("rbxassetid://14803122185")
             local import = objs[1]
             
-            import.Parent = game:GetService("ReplicatedStorage")
+            import.Parent = game:GetService("replicatedstorage")
             
             local index = {
             
@@ -10566,21 +10566,21 @@ run(function()
         HoverText = "Notifies you whenever an entity spawns. Made by @GODCLUTCHER",
         Function = function(callback)  
             if callback then
-            local CollectionService = game:GetService("CollectionService")
+            local collection = game:GetService("CollectionService");
 
-                CollectionService:GetInstanceAddedSignal("GolemBoss"):Connect(function()
+                collection:GetInstanceAddedSignal("GolemBoss"):Connect(function()
                     warningNotification("EntityNotifier", "A Golem boss has spawned", '2') 
                 end)
                 
-                CollectionService:GetInstanceAddedSignal("DiamondGuardian"):Connect(function()
+                collection:GetInstanceAddedSignal("DiamondGuardian"):Connect(function()
                     warningNotification("EntityNotifier", "A diamond guardian has spawned", '2')
                 end)
                 
-                CollectionService:GetInstanceAddedSignal("Monster"):Connect(function()
+                collection:GetInstanceAddedSignal("Monster"):Connect(function()
                     warningNotification("EntityNotifier", "A Monster has spawned", '2')
                 end)
 
-                CollectionService:GetInstanceAddedSignal("GuardianOfDream"):Connect(function()
+                collection:GetInstanceAddedSignal("GuardianOfDream"):Connect(function()
                     warningNotification("EntityNotifier", "A Guardian of Dream has spawned", '2')
                 end)
             end
@@ -10597,7 +10597,7 @@ run(function()
                     task.spawn(function()
                         while StrengthMode.Enabled do
                             local args = { [1] = "strength" }
-                            game:GetService("ReplicatedStorage")
+                            game:GetService("replicatedstorage")
                                 .rbxts_include
                                 .node_modules:FindFirstChild("@rbxts")
                                 .net.out._NetManaged.UpgradeFrostyHammer
@@ -10611,7 +10611,7 @@ run(function()
                     task.spawn(function()
                         while ShieldMode.Enabled do
                             local args = { [1] = "shield" }
-                            game:GetService("ReplicatedStorage")
+                            game:GetService("replicatedstorage")
                                 .rbxts_include
                                 .node_modules:FindFirstChild("@rbxts")
                                 .net.out._NetManaged.UpgradeFrostyHammer
@@ -10625,7 +10625,7 @@ run(function()
                     task.spawn(function()
                         while SpeedMode.Enabled do
                             local args = { [1] = "speed" }
-                            game:GetService("ReplicatedStorage")
+                            game:GetService("replicatedstorage")
                                 .rbxts_include
                                 .node_modules:FindFirstChild("@rbxts")
                                 .net.out._NetManaged.UpgradeFrostyHammer
@@ -10686,8 +10686,8 @@ run(function()
                             humanoidRootPart.CFrame = CFrame.new(humanoidRootPart.Position + Vector3.new(0, jumpDistance, 0))
                         end
                     elseif JumpMode.Value == "Tween" then
-                        local tweenService = game:GetService("TweenService")
-                        local tween = tweenService:Create(player.Character.HumanoidRootPart, TweenInfo.new(0.49, Enum.EasingStyle.Linear), {
+                        local tweenservice = game:GetService("tweenservice")
+                        local tween = tweenservice:Create(player.Character.HumanoidRootPart, TweenInfo.new(0.49, Enum.EasingStyle.Linear), {
                             CFrame = player.Character.PrimaryPart.CFrame + Vector3.new(0, Bypasstween.Value, 0)
                         })
                         tween:Play()
@@ -10997,7 +10997,7 @@ run(function()
 
                             direction = entityLibrary.character.HumanoidRootPart.CFrame.LookVector + entityLibrary.character.Humanoid.MoveDirection
                             bedwars.Client:Get("ScytheDash"):SendToServer({direction = direction})
-                            local heartbeat = game:GetService("RunService").Heartbeat
+                            local heartbeat = game:GetService("runservice").Heartbeat
                             heartbeat:Wait()
                         end
                     end
@@ -11038,7 +11038,7 @@ run(function()
 							["position"] = targetPosition
 						}
 					}
-					return game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SummonerClawAttackRequest:FireServer(unpack(args))
+					return game:GetService("replicatedstorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SummonerClawAttackRequest:FireServer(unpack(args))
 				end
 				repeat task.wait();
 					if entityLibrary.isAlive and store.matchState > 0 then
@@ -11072,9 +11072,9 @@ end)
 
 
 run(function()
-    local TweenService = game:GetService("TweenService")
-    local playersService = game:GetService("Players")
-    local lplr = playersService.LocalPlayer
+    local tweenservice = game:GetService("tweenservice")
+    local playersservice = game:GetService("Players")
+    local lplr = playersservice.LocalPlayer
     
     local tppos2
     local deathtpmod = {Enabled = false}
@@ -11089,7 +11089,7 @@ run(function()
             if (destination - currentPosition).Magnitude > 0.5 then
                 local tweenInfo = TweenInfo.new(TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
                 local goal = {CFrame = CFrame.new(destination)}
-                local tween = TweenService:Create(root, tweenInfo, goal)
+                local tween = tweenservice:Create(root, tweenInfo, goal)
                 tween:Play()
                 tween.Completed:Wait()
             end
@@ -11121,13 +11121,13 @@ run(function()
     vapeConnections[#vapeConnections + 1] = lplr.CharacterAdded:Connect(onCharacterAdded)
 
     local function setTeleportPosition()
-        local UserInputService = game:GetService("UserInputService")
-        local isMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
+        local Userinputservice = game:GetService("Userinputservice")
+        local isMobile = Userinputservice.TouchEnabled and not Userinputservice.KeyboardEnabled
 
         if isMobile then
             warningNotification("DeathTP", "Please tap on the screen to set TP position.", 3)
             local connection
-            connection = UserInputService.TouchTapInWorld:Connect(function(inputPosition, processedByUI)
+            connection = Userinputservice.TouchTapInWorld:Connect(function(inputPosition, processedByUI)
                 if not processedByUI then
                     local mousepos = lplr:GetMouse().UnitRay
                     local rayparams = RaycastParams.new()
@@ -11343,7 +11343,7 @@ run(function()
 						table.insert(collideparts, v) 
 					end 
 				end
-				table.insert(Invisibility.Connections, runService.Stepped:Connect(function()
+				table.insert(Invisibility.Connections, runservice.Stepped:Connect(function()
 					for i,v in next, collideparts do 
 						pcall(function() v.CanCollide = false end)
 					end
@@ -11428,7 +11428,7 @@ run(function()
 
     local function viewmodelFunction(handle)
         local exist, handle = pcall(function()
-            return handle and handle:IsA('Part') and handle or gameCamera.Viewmodel:FindFirstChildWhichIsA('Accessory').Handle
+            return handle and handle:IsA('Part') and handle or gamecamera.Viewmodel:FindFirstChildWhichIsA('Accessory').Handle
         end)
         if exist then 
             updatefuncs[ViewmodelHighlight.Value](handle, handle:FindFirstChildWhichIsA('Highlight'))
@@ -11449,7 +11449,7 @@ run(function()
         Name = 'ViewModelMods',
         Function = function(calling: boolean)
             if calling then 
-                local viewmodel = gameCamera:WaitForChild('Viewmodel')
+                local viewmodel = gamecamera:WaitForChild('Viewmodel')
                 viewmodelFunction()
                 table.insert(ViewmodelMods.Connections, viewmodel.ChildAdded:Connect(viewmodelFunction)) 
                 oldviewmodelanim = bedwars.ViewmodelController.playAnimation 
@@ -11471,7 +11471,7 @@ run(function()
                     oldviewmodelanim = nil
                 end
                 if oldviewmodelC1 then 
-                    pcall(function() gameCamera.Viewmodel.RightHand.RightWrist.C1 = oldviewmodelC1 end)
+                    pcall(function() gamecamera.Viewmodel.RightHand.RightWrist.C1 = oldviewmodelC1 end)
                     oldviewmodelC1 = nil
                 end
                 lplr.PlayerScripts.TS.controllers.global.viewmodel['viewmodel-controller']:SetAttribute('ConstantManager_DEPTH_OFFSET', 0)
@@ -11602,7 +11602,7 @@ run(function()
         Max = 360,
         Function = function(val: number)
             if ViewmodelMods.Enabled and ViewmodelAttributes.Enabled then
-                gameCamera.Viewmodel.RightHand.RightWrist.C1 = oldviewmodelC1 * CFrame.Angles(math.rad(rotationx.Value), math.rad(rotationy.Value), math.rad(rotationz.Value))
+                gamecamera.Viewmodel.RightHand.RightWrist.C1 = oldviewmodelC1 * CFrame.Angles(math.rad(rotationx.Value), math.rad(rotationy.Value), math.rad(rotationz.Value))
             end
         end
     })
@@ -11613,7 +11613,7 @@ run(function()
         Max = 360,
         Function = function(val: number)
             if ViewmodelMods.Enabled and ViewmodelAttributes.Enabled then
-                gameCamera.Viewmodel.RightHand.RightWrist.C1 = oldviewmodelC1 * CFrame.Angles(math.rad(rotationx.Value), math.rad(rotationy.Value), math.rad(rotationz.Value))
+                gamecamera.Viewmodel.RightHand.RightWrist.C1 = oldviewmodelC1 * CFrame.Angles(math.rad(rotationx.Value), math.rad(rotationy.Value), math.rad(rotationz.Value))
             end
         end
     })
@@ -11624,7 +11624,7 @@ run(function()
         Max = 360,
         Function = function(val: number)
             if ViewmodelMods.Enabled and ViewmodelAttributes.Enabled then
-                gameCamera.Viewmodel.RightHand.RightWrist.C1 = oldviewmodelC1 * CFrame.Angles(math.rad(rotationx.Value), math.rad(rotationy.Value), math.rad(val))
+                gamecamera.Viewmodel.RightHand.RightWrist.C1 = oldviewmodelC1 * CFrame.Angles(math.rad(rotationx.Value), math.rad(rotationy.Value), math.rad(val))
             end
         end
     })
@@ -11636,7 +11636,7 @@ run(function()
         local closestDiamond
         local maxDistance = 9e9
 
-        for _, diamond in collectionService:GetTagged("ItemDrop") do
+        for _, diamond in collection:GetTagged("ItemDrop") do
             if diamond.Name == "diamond" then
                 local magnitude = (diamond.Position - startPosition).Magnitude
                 if magnitude < maxDistance then
@@ -11651,7 +11651,7 @@ run(function()
 
     local function teleportToPosition(position)
         local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0)
-        local teleportTween = tweenService:Create(lplr.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(0.64), {CFrame = CFrame.new(position) + Vector3.new(0, 3, 0)})
+        local teleportTween = tweenservice:Create(lplr.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(0.64), {CFrame = CFrame.new(position) + Vector3.new(0, 3, 0)})
         teleportTween:Play()
     end
 
@@ -11695,7 +11695,7 @@ run(function()
         local closestEmerald
         local maxDistance = 9e9
 
-        for _, emerald in collectionService:GetTagged("ItemDrop") do
+        for _, emerald in collection:GetTagged("ItemDrop") do
             if emerald.Name == "emerald" then
                 local magnitude = (emerald.Position - startPosition).Magnitude
                 if magnitude < maxDistance then
@@ -11710,7 +11710,7 @@ run(function()
 
     local function teleportToPosition(position)
         local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0)
-        local teleportTween = tweenService:Create(lplr.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(0.64), {CFrame = CFrame.new(position) + Vector3.new(0, 3, 0)})
+        local teleportTween = tweenservice:Create(lplr.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(0.64), {CFrame = CFrame.new(position) + Vector3.new(0, 3, 0)})
         teleportTween:Play()
     end
 
@@ -11754,7 +11754,7 @@ run(function()
         local closestGold
         local maxDistance = 9e9
 
-        for _, gold in collectionService:GetTagged("ItemDrop") do
+        for _, gold in collection:GetTagged("ItemDrop") do
             if gold.Name == "gold" then
                 local magnitude = (gold.Position - startPosition).Magnitude
                 if magnitude < maxDistance then
@@ -11769,7 +11769,7 @@ run(function()
 
     local function teleportToPosition(position)
         local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0)
-        local teleportTween = tweenService:Create(lplr.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(0.64), {CFrame = CFrame.new(position) + Vector3.new(0, 3, 0)})
+        local teleportTween = tweenservice:Create(lplr.Character:WaitForChild("HumanoidRootPart"), TweenInfo.new(0.64), {CFrame = CFrame.new(position) + Vector3.new(0, 3, 0)})
         teleportTween:Play()
     end
 
@@ -11822,7 +11822,7 @@ run(function()
                             }
                         }
     
-                        game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("HannahPromptTrigger"):InvokeServer(unpack(args))
+                        game:GetService("replicatedstorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("HannahPromptTrigger"):InvokeServer(unpack(args))
                     end
                 end)
             else
@@ -11839,7 +11839,7 @@ run(function()
 		Function = function(call: boolean)
 			if call then
 				RunLoops:BindToStepped("multi", function()
-					replicatedStorage["events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"].useAbility:FireServer("enter_knight_shield_defensive_stance")
+					replicatedstorage["events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"].useAbility:FireServer("enter_knight_shield_defensive_stance")
 				end)
 			else
 				RunLoops:UnbindFromStepped("multi")
@@ -11889,7 +11889,7 @@ run(function()
 			if calling then 
 				createClone()
 				table.insert(antihit.Connections, lplr.CharacterAdded:Connect(createClone))
-				table.insert(antihit.Connections, runService.RenderStepped:Connect(function()
+				table.insert(antihit.Connections, runservice.RenderStepped:Connect(function()
 					if isAlive(lplr, true) and lplr.Character.PrimaryPart == newroot and tick() >= bouncedelay then 
 						oldroot.Velocity = Vector3.zero
 						oldroot.CFrame = newroot.CFrame
